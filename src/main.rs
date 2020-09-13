@@ -1,11 +1,34 @@
+use serde_derive::Deserialize;
 use std::env;
 use std::fs;
+use std::fs::File;
 use std::io;
+use std::io::Read;
 use std::io::Write;
 use std::path::Path;
 use std::path::PathBuf;
 use tera::Context;
 use tera::Tera;
+
+#[derive(Deserialize)]
+struct Config {
+    title: String,
+    sub_title: String,
+}
+
+fn read_config(config_file_path: &Path) -> io::Result<Config> {
+    // read the config
+    let mut config_file = File::open(config_file_path)?;
+    let mut config = String::new();
+    config_file.read_to_string(&mut config)?;
+
+    let config: Config = match toml::from_str(&config) {
+        Ok(c) => Ok(c),
+        Err(e) => Err(io::Error::new(io::ErrorKind::Other, e)),
+    }?;
+
+    Ok(config)
+}
 
 fn render_template(
     output_file_path: &Path,
@@ -20,7 +43,7 @@ fn render_template(
     }?;
 
     // Write the output file
-    let mut output_file = fs::File::create(output_file_path)?;
+    let mut output_file = File::create(output_file_path)?;
     output_file.write(result.as_bytes())?;
 
     Ok(())
@@ -35,8 +58,11 @@ fn main() -> io::Result<()> {
         ));
     }
 
-    let _config_file_path = PathBuf::from(&args[1]);
+    let config_file_path = PathBuf::from(&args[1]);
     let output_path = PathBuf::from(&args[2]);
+
+    // Load the config
+    let config = read_config(&config_file_path)?;
 
     // Create and clean the output dir
     fs::create_dir_all(&output_path)?;
