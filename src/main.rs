@@ -16,8 +16,13 @@ struct Config {
     sub_title: String,
 }
 
+/// Read the configuration of the bloq
+///
+/// @param config_file_path The path of the config file
+///
+/// @return The config or an error
 fn read_config(config_file_path: &Path) -> io::Result<Config> {
-    // read the config
+    // Read the config
     let mut config_file = File::open(config_file_path)?;
     let mut config = String::new();
     config_file.read_to_string(&mut config)?;
@@ -30,6 +35,14 @@ fn read_config(config_file_path: &Path) -> io::Result<Config> {
     Ok(config)
 }
 
+/// Render a template
+///
+/// @param output_file_path The path to the output file
+/// @param template_name The template name
+/// @param context A Tera context
+/// @param tera A Tera instance
+///
+/// @return Nothing
 fn render_template(
     output_file_path: &Path,
     template_name: &str,
@@ -49,7 +62,11 @@ fn render_template(
     Ok(())
 }
 
+/// The entry point
+///
+/// @return Nothing
 fn main() -> io::Result<()> {
+    // Parse the args
     let args: Vec<String> = env::args().collect();
     if args.len() != 3 {
         return Err(io::Error::new(
