@@ -1,3 +1,4 @@
+use serde::Serialize;
 use serde_derive::Deserialize;
 use std::env;
 use std::fs;
@@ -10,11 +11,19 @@ use std::path::PathBuf;
 use tera::Context;
 use tera::Tera;
 
+#[derive(Deserialize, Serialize)]
+struct Link {
+    title: String,
+    url: String,
+}
+
 #[derive(Deserialize)]
 struct Config {
     title: String,
     sub_title: String,
     url: String,
+    links: Vec<Link>,
+    social_links: Vec<Link>,
 }
 
 /// Read the configuration of the bloq
@@ -106,6 +115,8 @@ fn main() -> io::Result<()> {
     context.insert("blog_title", &config.title);
     context.insert("blog_sub_title", &config.sub_title);
     context.insert("blog_url", &config.url);
+    context.insert("blog_links", &config.links);
+    context.insert("blog_social_links", &config.social_links);
     render_template(&index_page_path, "index.html", &context, &tera)?;
 
     Ok(())

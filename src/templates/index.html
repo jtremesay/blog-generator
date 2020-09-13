@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <title>{{ blog_title }}</title>
 </head>
 
@@ -13,14 +14,21 @@
 
             <nav>
                 <ul>
+                    {% for link in blog_links %}
                     <li>
-                        <a href="">LINK</a>
+                        <a href="{{ link.url }}">{{ link.title }}</a>
                     </li>
+                    {% endfor %}
                 </ul>
             </nav>
 
             <ul>
-                <li><a href="">LINK SOCIAL</a></li>
+
+                {% for link in blog_social_links %}
+                <li>
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+                {% endfor %}
             </ul>
         </div>
     </aside>
