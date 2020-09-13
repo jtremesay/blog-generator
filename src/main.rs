@@ -84,7 +84,9 @@ fn main() -> io::Result<()> {
 
     // Create the index page
     let index_page_path = output_path.join("index.html");
-    let context = Context::new();
+    let mut context = Context::new();
+    context.insert("blog_title", &config.title);
+    context.insert("blog_sub_title", &config.sub_title);
     render_template(&index_page_path, "index.html", &context, &tera)?;
 
     Ok(())
