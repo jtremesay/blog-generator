@@ -14,6 +14,7 @@ use tera::Tera;
 struct Config {
     title: String,
     sub_title: String,
+    url: String,
 }
 
 /// Read the configuration of the bloq
@@ -104,6 +105,7 @@ fn main() -> io::Result<()> {
     let mut context = Context::new();
     context.insert("blog_title", &config.title);
     context.insert("blog_sub_title", &config.sub_title);
+    context.insert("blog_url", &config.url);
     render_template(&index_page_path, "index.html", &context, &tera)?;
 
     Ok(())

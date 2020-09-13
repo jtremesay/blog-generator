@@ -8,10 +8,36 @@
 <body>
     <aside>
         <div>
-            <h1>{{ blog_title }}</h1>
+            <h1><a href="{{ blog_url }}">{{ blog_title }}</a></h1>
             <p>{{ blog_sub_title }}</p>
+
+            <nav>
+                <ul>
+                    <li>
+                        <a href="">LINK</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <ul>
+                <li><a href="">LINK SOCIAL</a></li>
+            </ul>
         </div>
     </aside>
+
+    <main>
+        <nav>
+            <a href="{{ blog_url }}">Home</a>
+            <a href="{{ blog_url }}/archives.html">Archives</a>
+            <a href="{{ blog_url }}/categories.html">Categories</a>
+            <a href="{{ blog_url }}/tags.html">Tags</a>
+            <a href="{{ blog_url }}/atom.xml">Atom feed</a>
+        </nav>
+
+        <footer>
+            <p>Built with <a href="https://git.slaanesh.org/killruana/blog-generator">blog-generator</a>.</p>
+        </footer>
+    </main>
 </body>
 
 </html>
